@@ -25,6 +25,8 @@ A KRunner plugin for KDE Plasma 6 that allows you to query Large Language Models
 - CMake 3.28 or later
 - C++23 compatible compiler (GCC 14+, Clang 17+)
 
+**Note for Immutable Systems:** This plugin supports installation on immutable Linux distributions (Fedora Silverblue, Bazzite, etc.) through user-level installation. No system modifications are required.
+
 ## Building
 
 ### Install Dependencies
