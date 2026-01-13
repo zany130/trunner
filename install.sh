@@ -63,7 +63,7 @@ echo -e "${GREEN}Building KRunner LLM Plugin${NC}"
 
 # Check for required tools
 check_tool() {
-    if ! command -v $1 &> /dev/null; then
+    if ! command -v $1 >/dev/null 2>&1; then
         echo -e "${RED}Error: $1 is not installed${NC}"
         exit 1
     fi
@@ -158,20 +158,19 @@ make -j$(nproc)
 echo -e "${GREEN}Build successful!${NC}"
 echo ""
 
+# Helper function to run make install with appropriate permissions
+run_install() {
+    if [ "$USER_INSTALL" = true ] || [ "$EUID" -eq 0 ]; then
+        make install
+    else
+        sudo make install
+    fi
+}
+
 # Install if requested
 if [ "$AUTO_INSTALL" = true ]; then
     echo -e "${GREEN}Installing...${NC}"
-    if [ "$USER_INSTALL" = true ]; then
-        # User-level install never needs sudo
-        make install
-    else
-        # System install: use sudo only if not running as root
-        if [ "$EUID" -eq 0 ]; then
-            make install
-        else
-            sudo make install
-        fi
-    fi
+    run_install
     echo -e "${GREEN}Installation complete!${NC}"
     echo ""
     echo "Plugin installed to:"

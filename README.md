@@ -153,16 +153,14 @@ test -f /usr/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ De
 After installation, restart KRunner to load the plugin:
 
 ```bash
-kquitapp6 krunner
-krunner &
+kquitapp6 krunner && krunner &
 ```
 
-**For user-level installations**, you may also need to rebuild the system configuration cache:
+**For user-level installations**, you may also need to rebuild the system configuration cache first:
 
 ```bash
 kbuildsycoca6 --noincremental
-kquitapp6 krunner
-krunner &
+kquitapp6 krunner && krunner &
 ```
 
 ## Configuration
