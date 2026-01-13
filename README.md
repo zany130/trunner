@@ -135,15 +135,17 @@ This installs the plugin to:
 After installation, verify the plugin is installed:
 
 ```bash
-# Check if the plugin file exists
-ls ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so
-# OR for system installation
-ls /usr/lib/qt6/plugins/kf6/krunner/krunner_llm.so
+# Check if the plugin file exists (user-level installation)
+test -f ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
 
-# Check if the desktop file exists
-ls ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop
 # OR for system installation
-ls /usr/share/krunner/dbusplugins/plasma-runner-llm.desktop
+test -f /usr/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
+
+# Check if the desktop file exists (user-level installation)
+test -f ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Desktop file installed" || echo "✗ Desktop file not found"
+
+# OR for system installation
+test -f /usr/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Desktop file installed" || echo "✗ Desktop file not found"
 ```
 
 **Note:** The exact paths may vary depending on your distribution. On some systems, the plugin directory might be `/usr/lib64/` instead of `/usr/lib/`.
@@ -259,10 +261,10 @@ If you're using an immutable Linux distribution (Fedora Silverblue, Bazzite, etc
 3. **Verify user-level installation:**
    ```bash
    # Plugin should be here
-   find ~/.local -name "krunner_llm.so"
+   find ~/.local/lib -name "krunner_llm.so"
    
    # Metadata should be here
-   find ~/.local -name "plasma-runner-llm.desktop"
+   find ~/.local/share/krunner -name "plasma-runner-llm.desktop"
    ```
 
 4. **If KRunner doesn't detect the plugin**, try restarting your session or running:

@@ -146,8 +146,10 @@ echo ""
 if [ "$AUTO_INSTALL" = true ]; then
     echo -e "${GREEN}Installing...${NC}"
     if [ "$USER_INSTALL" = true ]; then
+        # User-level install never needs sudo
         make install
     else
+        # System install: use sudo only if not running as root
         if [ "$EUID" -eq 0 ]; then
             make install
         else
