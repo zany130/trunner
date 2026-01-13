@@ -16,6 +16,7 @@ AUTO_INSTALL=false
 INSTALL_TYPE_EXPLICIT=false
 
 usage() {
+    local exit_code=${1:-0}
     echo "Usage: $0 [OPTIONS]"
     echo ""
     echo "Options:"
@@ -28,7 +29,7 @@ usage() {
     echo "  - Detect if system directories are writable"
     echo "  - Use system install if running as root or if /usr/share is writable"
     echo "  - Use user install on immutable systems or when lacking permissions"
-    exit 0
+    exit "$exit_code"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -48,13 +49,12 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         -h|--help)
-            usage
+            usage 0
             ;;
         *)
             echo -e "${RED}Unknown option: $1${NC}"
             echo ""
-            usage
-            exit 1
+            usage 1
             ;;
     esac
 done
@@ -96,7 +96,7 @@ detect_install_type() {
     local immutable_detected=false
     
     # Check for ostree-based systems (Fedora Silverblue, Bazzite, etc.)
-    if [ -f "/run/ostree-booted" ] || command -v ostree &> /dev/null; then
+    if [ -f "/run/ostree-booted" ] || command -v ostree >/dev/null 2>&1; then
         echo -e "${YELLOW}OSTree-based immutable system detected${NC}"
         immutable_detected=true
     fi
