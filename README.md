@@ -90,12 +90,21 @@ The script will:
 #### Manual Installation Options
 
 **For traditional (mutable) systems:**
+
+Build and install in one step (recommended):
 ```bash
-chmod u+x ./install.sh && ./install.sh
+chmod u+x ./install.sh && ./install.sh --system --auto-install
+```
+
+Or build and install separately:
+```bash
+chmod u+x ./install.sh && ./install.sh --system
 cd build && sudo make install
 ```
 
 **For immutable systems (Fedora Silverblue, Bazzite, etc.):**
+
+Build and install in one step (recommended):
 ```bash
 chmod u+x ./install.sh && ./install.sh --user --auto-install
 ```

@@ -13,6 +13,7 @@ NC='\033[0m' # No Color
 # Parse command line arguments
 USER_INSTALL=false
 AUTO_INSTALL=false
+INSTALL_TYPE_EXPLICIT=false
 
 usage() {
     echo "Usage: $0 [OPTIONS]"
@@ -34,10 +35,12 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         --user)
             USER_INSTALL=true
+            INSTALL_TYPE_EXPLICIT=true
             shift
             ;;
         --system)
             USER_INSTALL=false
+            INSTALL_TYPE_EXPLICIT=true
             shift
             ;;
         --auto-install)
@@ -80,11 +83,6 @@ echo -e "${GREEN}All dependencies found${NC}"
 
 # Detect if system is immutable or if we should use user install
 detect_install_type() {
-    # If user explicitly chose, respect that
-    if [ "$1" = "explicit" ]; then
-        return
-    fi
-    
     # Check if running as root
     if [ "$EUID" -eq 0 ]; then
         echo -e "${BLUE}Running as root, using system installation${NC}"
@@ -103,8 +101,8 @@ detect_install_type() {
     fi
 }
 
-# Only auto-detect if user didn't specify
-if [ "$USER_INSTALL" = false ] && [ "$EUID" -ne 0 ]; then
+# Only auto-detect if user didn't explicitly specify
+if [ "$INSTALL_TYPE_EXPLICIT" = false ]; then
     detect_install_type
 fi
 
