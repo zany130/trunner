@@ -96,7 +96,7 @@ detect_install_type() {
     local immutable_detected=false
     
     # Check for ostree-based systems (Fedora Silverblue, Bazzite, etc.)
-    if [ -f "/run/ostree-booted" ] || command -v ostree >/dev/null 2>&1; then
+    if [ -f "/run/ostree-booted" ]; then
         echo -e "${YELLOW}OSTree-based immutable system detected${NC}"
         immutable_detected=true
     fi
