@@ -25,6 +25,8 @@ A KRunner plugin for KDE Plasma 6 that allows you to query Large Language Models
 - CMake 3.28 or later
 - C++23 compatible compiler (GCC 14+, Clang 17+)
 
+**Note for Immutable Systems:** This plugin supports installation on immutable Linux distributions (Fedora Silverblue, Bazzite, etc.) through user-level installation. No system modifications are required.
+
 ## Building
 
 ### Install Dependencies
@@ -72,8 +74,84 @@ sudo dnf install \
 
 ### Compile and Install
 
+First, make the installation script executable:
 ```bash
-chmod u+x ./build.sh && ./build.sh
+chmod u+x ./install.sh
+```
+
+The installation script automatically detects your system type and chooses the appropriate installation method.
+
+#### Automatic Installation (Recommended)
+
+```bash
+./install.sh --auto-install
+```
+
+The script will:
+- Detect if your system is immutable (like Fedora Silverblue, Bazzite, etc.)
+- Automatically use user-level installation on immutable systems
+- Use system-level installation on traditional systems (if you have permissions)
+
+#### Manual Installation Options
+
+**For traditional (mutable) systems:**
+
+Build and install in one step (recommended):
+```bash
+./install.sh --system --auto-install
+```
+
+Or build and install separately:
+```bash
+./install.sh --system
+cd build && sudo make install
+```
+
+**For immutable systems (Fedora Silverblue, Bazzite, etc.):**
+
+Build and install in one step (recommended):
+```bash
+./install.sh --user --auto-install
+```
+
+Or build and install separately:
+```bash
+./install.sh --user
+cd build && make install
+```
+
+**Force user-level installation (no sudo required):**
+```bash
+./install.sh --user --auto-install
+```
+
+This installs the plugin to:
+- Plugin: `~/.local/lib/qt6/plugins/kf6/krunner/`
+- Metadata: `~/.local/share/krunner/dbusplugins/`
+- KCM module: `~/.local/lib/qt6/plugins/`
+
+#### Verifying Installation
+
+After installation, verify the plugin is installed:
+
+```bash
+# Check if the plugin file exists (user-level installation)
+test -f ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
+
+# OR for system installation (check both lib and lib64 and report where it's found)
+if test -f /usr/lib/qt6/plugins/kf6/krunner/krunner_llm.so; then
+  echo "✓ Plugin installed in /usr/lib/qt6/plugins/kf6/krunner/"
+elif test -f /usr/lib64/qt6/plugins/kf6/krunner/krunner_llm.so; then
+  echo "✓ Plugin installed in /usr/lib64/qt6/plugins/kf6/krunner/"
+else
+  echo "✗ Plugin not found in /usr/lib{,64}/qt6/plugins/kf6/krunner/"
+fi
+
+# Check if the desktop file exists (user-level installation)
+test -f ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Desktop file installed" || echo "✗ Desktop file not found"
+
+# OR for system installation
+test -f /usr/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Desktop file installed" || echo "✗ Desktop file not found"
 ```
 
 ### Restart KRunner
@@ -81,8 +159,14 @@ chmod u+x ./build.sh && ./build.sh
 After installation, restart KRunner to load the plugin:
 
 ```bash
-kquitapp6 krunner
-krunner &
+kquitapp6 krunner && krunner &
+```
+
+**For user-level installations**, you may also need to rebuild the system configuration cache first:
+
+```bash
+kbuildsycoca6 --noincremental
+kquitapp6 krunner && krunner &
 ```
 
 ## Configuration
@@ -153,6 +237,41 @@ Or run specific tests:
 3. Enable the plugin manually:
    ```bash
    kwriteconfig6 --file krunnerrc --group Plugins --key llmrunnerEnabled true
+   kquitapp6 krunner && krunner &
+   ```
+
+4. For user-level installations, ensure the plugin files are in the correct location:
+   ```bash
+   # Check plugin library
+   test -f ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin file found" || echo "✗ Plugin file not found"
+   
+   # Check metadata file
+   test -f ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Metadata file found" || echo "✗ Metadata file not found"
+   ```
+
+### Installation on Immutable Systems
+
+If you're using an immutable Linux distribution (Fedora Silverblue, Bazzite, etc.):
+
+1. **Always use user-level installation:**
+   ```bash
+   ./install.sh --user --auto-install
+   ```
+
+2. **The plugin cannot be installed to system directories** because the root filesystem is read-only.
+
+3. **Verify user-level installation:**
+   ```bash
+   # Plugin should be here
+   find ~/.local/lib -name "krunner_llm.so"
+   
+   # Metadata should be here
+   find ~/.local/share/krunner -name "plasma-runner-llm.desktop"
+   ```
+
+4. **If KRunner doesn't detect the plugin**, try restarting your session or running:
+   ```bash
+   kbuildsycoca6 --noincremental
    kquitapp6 krunner && krunner &
    ```
 
