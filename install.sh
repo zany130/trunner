@@ -52,7 +52,9 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             echo -e "${RED}Unknown option: $1${NC}"
+            echo ""
             usage
+            exit 1
             ;;
     esac
 done

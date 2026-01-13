@@ -139,7 +139,7 @@ After installation, verify the plugin is installed:
 test -f ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
 
 # OR for system installation (try both lib and lib64)
-test -f /usr/lib/qt6/plugins/kf6/krunner/krunner_llm.so || test -f /usr/lib64/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
+(test -f /usr/lib/qt6/plugins/kf6/krunner/krunner_llm.so || test -f /usr/lib64/qt6/plugins/kf6/krunner/krunner_llm.so) && echo "✓ Plugin installed" || echo "✗ Plugin not found"
 
 # Check if the desktop file exists (user-level installation)
 test -f ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Desktop file installed" || echo "✗ Desktop file not found"
