@@ -158,8 +158,22 @@ if [ "$AUTO_INSTALL" = true ]; then
     fi
     echo -e "${GREEN}Installation complete!${NC}"
     echo ""
+    echo "Plugin installed to:"
+    if [ "$USER_INSTALL" = true ]; then
+        echo -e "  ${BLUE}$INSTALL_PREFIX/lib/qt6/plugins/kf6/krunner/${NC}"
+        echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
+    else
+        echo -e "  ${BLUE}$INSTALL_PREFIX/lib*/qt6/plugins/kf6/krunner/${NC}"
+        echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
+    fi
+    echo ""
     echo "Please restart KRunner to load the plugin:"
     echo -e "  ${BLUE}kquitapp6 krunner && krunner &${NC}"
+    if [ "$USER_INSTALL" = true ]; then
+        echo ""
+        echo "If the plugin doesn't appear, try rebuilding the system cache:"
+        echo -e "  ${BLUE}kbuildsycoca6 --noincremental${NC}"
+    fi
 else
     echo "To install, run:"
     if [ "$USER_INSTALL" = true ]; then
@@ -168,6 +182,20 @@ else
         echo -e "  ${BLUE}cd $BUILD_DIR && sudo make install${NC}"
     fi
     echo ""
+    echo "Plugin will be installed to:"
+    if [ "$USER_INSTALL" = true ]; then
+        echo -e "  ${BLUE}$INSTALL_PREFIX/lib/qt6/plugins/kf6/krunner/${NC}"
+        echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
+    else
+        echo -e "  ${BLUE}$INSTALL_PREFIX/lib*/qt6/plugins/kf6/krunner/${NC}"
+        echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
+    fi
+    echo ""
     echo "Then restart KRunner:"
     echo -e "  ${BLUE}kquitapp6 krunner && krunner &${NC}"
+    if [ "$USER_INSTALL" = true ]; then
+        echo ""
+        echo "If the plugin doesn't appear, try rebuilding the system cache:"
+        echo -e "  ${BLUE}kbuildsycoca6 --noincremental${NC}"
+    fi
 fi

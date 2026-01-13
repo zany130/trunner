@@ -141,6 +141,14 @@ kquitapp6 krunner
 krunner &
 ```
 
+**For user-level installations**, you may also need to rebuild the system configuration cache:
+
+```bash
+kbuildsycoca6 --noincremental
+kquitapp6 krunner
+krunner &
+```
+
 ## Configuration
 
 1. Open KDE System Settings
