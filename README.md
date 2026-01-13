@@ -138,8 +138,8 @@ After installation, verify the plugin is installed:
 # Check if the plugin file exists (user-level installation)
 test -f ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
 
-# OR for system installation
-test -f /usr/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
+# OR for system installation (try both lib and lib64)
+test -f /usr/lib/qt6/plugins/kf6/krunner/krunner_llm.so || test -f /usr/lib64/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin installed" || echo "✗ Plugin not found"
 
 # Check if the desktop file exists (user-level installation)
 test -f ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Desktop file installed" || echo "✗ Desktop file not found"
@@ -147,8 +147,6 @@ test -f ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "�
 # OR for system installation
 test -f /usr/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Desktop file installed" || echo "✗ Desktop file not found"
 ```
-
-**Note:** The exact paths may vary depending on your distribution. On some systems, the plugin directory might be `/usr/lib64/` instead of `/usr/lib/`.
 
 ### Restart KRunner
 
@@ -241,10 +239,10 @@ Or run specific tests:
 4. For user-level installations, ensure the plugin files are in the correct location:
    ```bash
    # Check plugin library
-   ls -la ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so
+   test -f ~/.local/lib/qt6/plugins/kf6/krunner/krunner_llm.so && echo "✓ Plugin file found" || echo "✗ Plugin file not found"
    
    # Check metadata file
-   ls -la ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop
+   test -f ~/.local/share/krunner/dbusplugins/plasma-runner-llm.desktop && echo "✓ Metadata file found" || echo "✗ Metadata file not found"
    ```
 
 ### Installation on Immutable Systems

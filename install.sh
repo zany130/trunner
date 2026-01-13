@@ -90,14 +90,28 @@ detect_install_type() {
         return
     fi
     
-    # Check if /usr/share is writable (common indicator of mutable system)
-    if [ -w "/usr/share" ]; then
+    # Check for immutable system indicators
+    local immutable_detected=false
+    
+    # Check for ostree-based systems (Fedora Silverblue, Bazzite, etc.)
+    if [ -f "/run/ostree-booted" ] || command -v ostree &> /dev/null; then
+        echo -e "${YELLOW}OSTree-based immutable system detected${NC}"
+        immutable_detected=true
+    fi
+    
+    # Check if /usr/share is writable (fallback indicator)
+    if [ "$immutable_detected" = false ] && [ ! -w "/usr/share" ]; then
+        echo -e "${YELLOW}System directories are not writable${NC}"
+        immutable_detected=true
+    fi
+    
+    # Set installation type based on detection
+    if [ "$immutable_detected" = true ]; then
+        echo -e "${BLUE}Using user-level installation${NC}"
+        USER_INSTALL=true
+    else
         echo -e "${BLUE}System directories are writable, using system installation${NC}"
         USER_INSTALL=false
-    else
-        echo -e "${YELLOW}System directories are not writable${NC}"
-        echo -e "${BLUE}Using user-level installation (immutable system detected)${NC}"
-        USER_INSTALL=true
     fi
 }
 
