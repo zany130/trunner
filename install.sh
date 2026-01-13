@@ -63,7 +63,7 @@ echo -e "${GREEN}Building KRunner LLM Plugin${NC}"
 
 # Check for required tools
 check_tool() {
-    if ! command -v $1 >/dev/null 2>&1; then
+    if ! command -v "$1" >/dev/null 2>&1; then
         echo -e "${RED}Error: $1 is not installed${NC}"
         exit 1
     fi
