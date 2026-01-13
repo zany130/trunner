@@ -45,6 +45,7 @@ target_link_libraries(krunner_llm
 install(TARGETS krunner_llm DESTINATION ${KDE_INSTALL_QTPLUGINDIR}/kf6/krunner)
 
 # Install metadata
+# For user-level installations, KRunner looks in ~/.local/share/krunner/dbusplugins
 install(FILES plasma-runner-llm.desktop DESTINATION ${KDE_INSTALL_DATADIR}/krunner/dbusplugins)
 
 # Configuration UI
