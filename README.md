@@ -74,12 +74,17 @@ sudo dnf install \
 
 ### Compile and Install
 
+First, make the installation script executable:
+```bash
+chmod u+x ./install.sh
+```
+
 The installation script automatically detects your system type and chooses the appropriate installation method.
 
 #### Automatic Installation (Recommended)
 
 ```bash
-chmod u+x ./install.sh && ./install.sh --auto-install
+./install.sh --auto-install
 ```
 
 The script will:
@@ -93,12 +98,12 @@ The script will:
 
 Build and install in one step (recommended):
 ```bash
-chmod u+x ./install.sh && ./install.sh --system --auto-install
+./install.sh --system --auto-install
 ```
 
 Or build and install separately:
 ```bash
-chmod u+x ./install.sh && ./install.sh --system
+./install.sh --system
 cd build && sudo make install
 ```
 
@@ -106,12 +111,12 @@ cd build && sudo make install
 
 Build and install in one step (recommended):
 ```bash
-chmod u+x ./install.sh && ./install.sh --user --auto-install
+./install.sh --user --auto-install
 ```
 
 Or build and install separately:
 ```bash
-chmod u+x ./install.sh && ./install.sh --user
+./install.sh --user
 cd build && make install
 ```
 

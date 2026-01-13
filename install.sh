@@ -26,7 +26,7 @@ usage() {
     echo ""
     echo "If no install location is specified, the script will:"
     echo "  - Detect if system directories are writable"
-    echo "  - Use system install if running as root or if /usr is writable"
+    echo "  - Use system install if running as root or if /usr/share is writable"
     echo "  - Use user install on immutable systems or when lacking permissions"
     exit 0
 }
@@ -161,7 +161,7 @@ if [ "$AUTO_INSTALL" = true ]; then
         echo -e "  ${BLUE}$INSTALL_PREFIX/lib/qt6/plugins/kf6/krunner/${NC}"
         echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
     else
-        echo -e "  ${BLUE}$INSTALL_PREFIX/lib*/qt6/plugins/kf6/krunner/${NC}"
+        echo -e "  ${BLUE}$INSTALL_PREFIX/lib/qt6/plugins/kf6/krunner/${NC} (or lib64)"
         echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
     fi
     echo ""
@@ -185,7 +185,7 @@ else
         echo -e "  ${BLUE}$INSTALL_PREFIX/lib/qt6/plugins/kf6/krunner/${NC}"
         echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
     else
-        echo -e "  ${BLUE}$INSTALL_PREFIX/lib*/qt6/plugins/kf6/krunner/${NC}"
+        echo -e "  ${BLUE}$INSTALL_PREFIX/lib/qt6/plugins/kf6/krunner/${NC} (or lib64)"
         echo -e "  ${BLUE}$INSTALL_PREFIX/share/krunner/dbusplugins/${NC}"
     fi
     echo ""
